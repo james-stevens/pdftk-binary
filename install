@@ -1,0 +1,4 @@
+#! /bin/sh
+
+cp -a chroot-pdftk /usr/local
+cp -a pdftk /usr/local/bin

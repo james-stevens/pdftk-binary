@@ -1,0 +1,19 @@
+#! /bin/sh
+
+# pdftk /tmp/invoice.pdf fill_form /tmp/input.xml output - flatten
+
+pdf="${1}"
+xml="${3}"
+
+base="/usr/local/chroot-pdftk"
+
+rm -f ${base}/tmp/*
+
+cp ${pdf} ${base}/tmp/input.pdf
+cp ${xml} ${base}/tmp/input.xml
+
+mount -t proc proc /usr/local/chroot-pdftk/proc/
+
+chroot /usr/local/chroot-pdftk/ /bin/pdftk /tmp/input.pdf fill_form /tmp/input.xml output - flatten
+rm -f ${base}/tmp/*
+umount /usr/local/chroot-pdftk/proc/
