@@ -39,7 +39,7 @@ However, once the install has been run, `pdftk-wrap` can be run by an ordinary u
 
 # License
 
-The `LICENSE` applies to my code only. For the License terms for `pdftk` and the Slackware binaries,
+The `LICENSE` file in this repo applies to my code only. For the License terms for `pdftk` and the Slackware binaries,
 please refer to their respective websites
 
 	http://www.slackware.com/
