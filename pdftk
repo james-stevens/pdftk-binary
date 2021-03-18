@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# pdftk /tmp/invoice.pdf fill_form /tmp/input.xml output - flatten
+# pdftk [my-pdf] fill_form [my-xml] output - flatten
 
 pdf="${1}"
 xml="${3}"
@@ -12,8 +12,16 @@ rm -f ${base}/tmp/*
 cp ${pdf} ${base}/tmp/input.pdf
 cp ${xml} ${base}/tmp/input.xml
 
+if ! test -f ${base}/tmp/input.pdf -a -f ${base}/tmp/input.xml
+	then
+		echo "Failed to copy either the PDF or XML into the chroot"
+		rm -f ${base}/tmp/*
+		exit 1
+	fi
+
 mount -t proc proc /usr/local/chroot-pdftk/proc/
 
 chroot /usr/local/chroot-pdftk/ /bin/pdftk /tmp/input.pdf fill_form /tmp/input.xml output - flatten
+
 rm -f ${base}/tmp/*
 umount /usr/local/chroot-pdftk/proc/
