@@ -1,6 +1,6 @@
 # pdftk-binary
 
-This is a binary package of `pdftk`, built on Slackware v14.2, that includes all the dynamic link libraries it needs
+This is a binary package of `pdftk` of v2.02 built on Slackware v14.2, that includes all the dynamic link libraries it needs
 to run, all contained in a `chroot` - kinda like a poor man's container
 
 This means when you run it, all the files you want it to process *must* be first copied into the `chroot`
