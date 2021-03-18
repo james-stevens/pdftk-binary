@@ -7,10 +7,8 @@
 
 int main(int argc,char * argv[])
 {
-int ret;
-
-	if (chroot(CHROOT_DIR)) { perror("chroot:"); exit(1); }
 	argv[0] = BIN_RUN;
+	if (chroot(CHROOT_DIR)) { perror("chroot:"); exit(1); }
 	if (execv(BIN_RUN,argv)) { perror("exec"); exit(1); }
-	return ret;
+	return 0;
 }
