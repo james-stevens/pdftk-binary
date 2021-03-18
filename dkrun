@@ -1,0 +1,3 @@
+#! /bin/bash
+
+exec docker run -v /usr/local/tmp:/tmp -it pdftk pdftk "$@"

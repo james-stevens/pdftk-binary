@@ -4,10 +4,28 @@ This is a complete binary package of `pdftk` v2.02 built on Slackware v14.2, whi
 to run, all contained in a `chroot` - kinda like a poor man's container - so it **should** be able to run on any Linux platform.
 Although I've only tested it on Alpine v3.12.
 
-When you run it, all the files you want `pdftk` to process *must* be first copied into the `chroot` directory.
+When you run it, copy all the files you want `pdftk` to process into `/usr/local/tmp`, but then their
+path names must be given to `pdftk` as `/tmp/[your-file]`
 
-I only use `pdftk` for merging an XML file of data fields into a PDF input form, so the wrapper script
-I have provided (called `pdftk`) is cumtomised to doing *only* this, but changing it to do whatever you want should be easy.
+e.g. `/usr/local/tmp/input.pdf` is specified to `pdftk` as `/tmp/input.pdf`
+
+I only use `pdftk` for merging an XML file of data fields into a PDF input form, so that's the only
+thing I have tested.
+
+The `pdftk` wrapper provided will copy the files into `/usr/local/tmp` for you, but only works for the XML & form merge.
+
+
+# Containter
+
+If you prefer a proper docker container, its also there. I tested it with the form merge I use, but nothing else
+
+Run `./dkmk` to make the container, copy your files into `/usr/local/tmp`, then run `./dkrun` with the `pdftk` parameters
+you want, treating `/usr/local/tmp` as `/tmp`. That is `/usr/local/tmp/input.xml` is specified to `pdfktk` as `/tmp/input.xml`
+
+	$ cp input.xml invoice.pdf /usr/local/tmp/
+	$ ./dkrun /tmp/invoice.pdf fill_form /tmp/input.xml output - flatten > merged.pdf
+
+By outputting to `stdout` I don't have to be concerned about getting the output file out again.
 
 
 # Install
@@ -22,17 +40,18 @@ It will also compile & copy the binary `pdftk-wrap` into `/usr/local/bin` and gr
 My wrapper script, called `pdftk` is copied into `/usr/local/bin`. The only purpose of the shell wrapper is to copy
 the files to be processed into the `chroot` `/tmp/` directory.
 
-You could also `mount --bind` your existing `/tmp` directory as `/usr/local/chroot-pdftk/tmp`, then `pdftk` could
-access any files in your `/tmp` directory. Whatever works for you.
+The `install` script will also `mount --bind` `/usr/local/tmp` into `/usr/local/chroot-pdftk/tmp` so you can share files with the `chroot`
+environment. The container uses the same directory.
+
 
 
 # Permissions
 
-You *must* have `root` priviledges to run the install, becuase this whole package relies on `chroot` which is a priviledged operation.
+You *must* have `root` priviledges to run the install, becuase the package relies on `chroot` which is a priviledged operation.
 
 The binary wrapper `pdftk-wrap` is granted `chroot` permission during install, but you need `root` permission to grant permission!
 
-The `chroot` directory also requires that `procfs` is mounted at `/usr/local/chroot-pdftk/proc`, so this is also done during the `install`.
+The `chroot` directory also requires that `/proc` is mounted at `/usr/local/chroot-pdftk/proc`, so this is also done during the `install`.
 
 However, once the install has been run, `pdftk-wrap` can be run by an ordinary user, and appears to operate just like `pdftk`.
 

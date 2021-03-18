@@ -9,3 +9,5 @@ cp pdftk-wrap /usr/local/bin
 setcap 'cap_sys_chroot+ep' /usr/local/bin/pdftk-wrap
 
 mount -t proc /usr/local/chroot-pdftk/proc /usr/local/chroot-pdftk/proc
+mkdir -p /usr/local/tmp; chmod 777 /usr/local/tmp; chmod +t /usr/local/tmp
+mount --bind /usr/local/tmp/ /usr/local/chroot-pdftk/tmp/
