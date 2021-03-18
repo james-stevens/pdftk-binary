@@ -19,9 +19,6 @@ if ! test -f ${base}/tmp/input.pdf -a -f ${base}/tmp/input.xml
 		exit 1
 	fi
 
-mount -t proc proc /usr/local/chroot-pdftk/proc/
-
-chroot /usr/local/chroot-pdftk/ /bin/pdftk /tmp/input.pdf fill_form /tmp/input.xml output - flatten
+/usr/local/bin/pdftk-wrap /tmp/input.pdf fill_form /tmp/input.xml output - flatten
 
 rm -f ${base}/tmp/*
-umount /usr/local/chroot-pdftk/proc/

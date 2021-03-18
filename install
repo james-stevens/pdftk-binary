@@ -2,3 +2,10 @@
 
 cp -a chroot-pdftk /usr/local
 cp -a pdftk /usr/local/bin
+
+gcc pdftk-wrap.c -o pdftk-wrap
+strip pdftk-wrap
+cp pdftk-wrap /usr/local/bin
+setcap 'cap_sys_chroot+ep' /usr/local/bin/pdftk-wrap
+
+mount -t proc /usr/local/chroot-pdftk/proc /usr/local/chroot-pdftk/proc
